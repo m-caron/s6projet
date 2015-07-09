@@ -10,8 +10,10 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
@@ -43,10 +45,16 @@ class ApplicationView extends ViewWithUiHandlers<ApplicationUiHandlers> implemen
     		  SelectedItemPanel.clear();
     		  SubMenuBarTitle.getElement().setInnerHTML("Session : ");
     		  getCoursSessionMenu(itemName);
-              PanelCreator.CreateSessionPanel(SelectedItemPanel, itemName);
+    		  //CreateSessionSubMenu();
+              CreateSessionPanel(SelectedItemPanel, itemName);
     	  }
     }
     
+	private void CreateSessionPanel(Panel PanelToInit, String PanelName)
+	{
+		PanelToInit.add(new HTMLPanel("h3", "Description de la session "+ PanelName));
+		PanelToInit.add(new Label("Choisissez un cours a gauche"));
+	}
 
     public class CoursMenuCommand implements ScheduledCommand 
     {
@@ -60,9 +68,14 @@ class ApplicationView extends ViewWithUiHandlers<ApplicationUiHandlers> implemen
     	  public void execute() 
     	  {
     		  SelectedItemPanel.clear();
-              PanelCreator.CreateCoursPanel(SelectedItemPanel, itemName);
+              CreateCoursPanel(SelectedItemPanel, itemName);
     	  }
     }
+    
+	private void CreateCoursPanel(Panel PanelToInit, String PanelName)
+	{
+		PanelToInit.add(new HTMLPanel("h3", PanelName));
+	}
     
     public void getCoursSessionMenu(String itemName)
     {
@@ -93,9 +106,14 @@ class ApplicationView extends ViewWithUiHandlers<ApplicationUiHandlers> implemen
     	      SubMenuBarPanel.setVisible(false);
     		  SubMenuBar.clearItems();
     		  SelectedItemPanel.clear();
-              PanelCreator.CreateQualitePanel(SelectedItemPanel, itemName);
+              CreateQualitePanel(SelectedItemPanel, itemName);
     	  }
     }
+    
+	public void CreateQualitePanel(Panel PanelToInit, String PanelName)
+	{
+		PanelToInit.add(new HTMLPanel("h3", PanelName));
+	}
     
     public void CreateMenuItems(MenuResult menuResult)
     {
@@ -117,7 +135,7 @@ class ApplicationView extends ViewWithUiHandlers<ApplicationUiHandlers> implemen
         initWidget(uiBinder.createAndBindUi(this));
         mainVertical.setWidth("100%");
         SubMenuBarPanel.setVisible(false);
-    }
+        }
 
     @Override
     public void setInSlot(Object slot, IsWidget content) {
