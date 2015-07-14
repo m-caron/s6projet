@@ -1,7 +1,10 @@
 package ca.uSherbrooke.gegi.opusProjectModel.client.application;
 
+import java.util.Iterator;
+
 import javax.inject.Inject;
 
+import ca.uSherbrooke.gegi.opusProjectModel.shared.dispatch.CoursInfoResult;
 import ca.uSherbrooke.gegi.opusProjectModel.shared.dispatch.CoursResult;
 import ca.uSherbrooke.gegi.opusProjectModel.shared.dispatch.MenuResult;
 
@@ -29,7 +32,12 @@ class ApplicationView extends ViewWithUiHandlers<ApplicationUiHandlers> implemen
     @UiField VerticalPanel SubMenuBarPanel;
     @UiField HTMLPanel SubMenuBarTitle;
     @UiField MenuBar SessionMenu;
-    @UiField MenuBar QualityMenu;
+    @UiField MenuBar QualityMenu;			   
+    @UiField Label CoursCode;
+    @UiField Label CoursName;
+    @UiField Label CoursTutor;
+    @UiField Label CoursDescription;
+    @UiField Label CoursQuality;
 
     public class SessionMenuCommand implements ScheduledCommand 
     {
@@ -72,11 +80,6 @@ class ApplicationView extends ViewWithUiHandlers<ApplicationUiHandlers> implemen
     	  }
     }
     
-	private void CreateCoursPanel(Panel PanelToInit, String PanelName)
-	{
-		PanelToInit.add(new HTMLPanel("h3", PanelName));
-	}
-    
     public void getCoursSessionMenu(String itemName)
     {
     	getUiHandlers().GetCoursItem(itemName);
@@ -92,6 +95,39 @@ class ApplicationView extends ViewWithUiHandlers<ApplicationUiHandlers> implemen
     	
     }
     
+	public static void CreateCoursPanel(Panel PanelToInit, String PanelName)
+	{	
+		String style = " style=\"padding-left:25px;\"";
+		PanelToInit.add(new HTMLPanel("h3" + style, "Code : " + PanelName)); // FUNCTION > FORM
+		// GET INFO BD HERE
+		PanelToInit.add(new HTMLPanel("label" + style, "Nom du cours :" + "Nom de cours TEMPORAIRE")); // NOM DE COURS AVEC DB
+
+		/* for (String chargeDeCours : ChargeDeCoursList) {
+			listChargeDeCours += chargeDeCours;
+			if(ChargeDeCoursList.hasNext()){
+				listChargeDeCours += ", ";
+			}
+		
+		}*/
+		
+		PanelToInit.add(new HTMLPanel("label" + style, "Chargé de cours :" + "INSÉRER CHARGÉ DE COURS ICI")); // TEMPORAIRE
+		/* if(chargéDeCours != null){  // NOM DE COURS AVEC DB
+		  	PanelToInit.add(new HTMLPanel("label", "Chargé de cours :" + "INSÉRER CHARGÉ DE COURS ICI"));
+		  } else {
+		  	PanelToInit.add(new HTMLPanel("label", "Chargé de cours :" + "Aucun chargé de cours"));
+		  }*/
+
+		PanelToInit.add(new HTMLPanel("label" + style, "Description : " + "INSÉRER DESCRIPTION DU COURS ICI BACON IPSUM FOR ATTENTION : Bacon ipsum dolor amet pancetta cow rump, tail picanha bacon boudin porchetta ham hock swine andouille salami tongue. Sirloin hamburger ground round shankle spare ribs chicken salami beef. Pastrami beef pancetta, rump meatball beef ribs leberkas ribeye flank. Cow tenderloin tail beef ribs bresaola chicken chuck kielbasa ham kevin shank pork loin shoulder picanha. Brisket pig fatback chicken biltong spare ribs shankle cupim ball tip pork belly swine salami.")); // TEMPORAIRE
+		
+		/* for (String quality : QualityList) {
+			listQuality += quality;
+			if(QualityList.hasNext()){
+				listQuality += ", ";
+			}
+		}*/
+		PanelToInit.add(new HTMLPanel("label" + style, "Qualités associées : " + "Qualité 1, Qualité 5, Qualité 9")); // TEMPORAIRE
+//		PanelToInit.getElement().setAttribute("style", "padding-left:25px;");
+	}
     public class QualiteMenuCommand implements ScheduledCommand 
     {
     	  private final String itemName;
@@ -144,4 +180,35 @@ class ApplicationView extends ViewWithUiHandlers<ApplicationUiHandlers> implemen
             super.setInSlot(slot, content);
         }
     }
+	@Override
+	public void CreateCoursItems(CoursInfoResult result) {
+	    String listTutor = "";
+	    String listQuality = "";
+	    
+	    
+		CoursCode.setText(result.coursCode);
+	    CoursName.setText(result.coursName);
+	    
+	    Iterator<String> it = result.tutorList.iterator();
+	    while(it.hasNext())
+	    {
+	    	listTutor += it.toString();
+			if(it.hasNext()){
+				listTutor += ", ";
+			}
+	    }
+	    CoursTutor.setText(listTutor);
+			
+	    CoursDescription.setText(result.coursDescription);
+	    it = result.qualityList.iterator();
+	    while(it.hasNext())
+	    {
+	    	listQuality += it.toString();
+			if(it.hasNext()){
+				listQuality += ", ";
+			}
+	    }
+	    CoursQuality.setText(listQuality);
+		
+	}
 }

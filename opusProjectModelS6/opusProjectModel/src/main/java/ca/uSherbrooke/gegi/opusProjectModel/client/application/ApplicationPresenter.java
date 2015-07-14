@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 
 import ca.uSherbrooke.gegi.opusProjectModel.shared.dispatch.CoursAction;
+import ca.uSherbrooke.gegi.opusProjectModel.shared.dispatch.CoursInfoAction;
+import ca.uSherbrooke.gegi.opusProjectModel.shared.dispatch.CoursInfoResult;
 import ca.uSherbrooke.gegi.opusProjectModel.shared.dispatch.CoursResult;
 import ca.uSherbrooke.gegi.opusProjectModel.shared.dispatch.MenuAction;
 import ca.uSherbrooke.gegi.opusProjectModel.shared.dispatch.MenuResult;
@@ -27,6 +29,7 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
     {
     	public void CreateMenuItems(MenuResult result);
     	public void CreateSessionSubMenu(CoursResult result);
+    	public void CreateCoursItems(CoursInfoResult result);
     }
 
 	DispatchAsync dispatcher;
@@ -57,6 +60,7 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
     {
     	super.onBind();
     	GetMenuItems();
+    	GetCoursInfo();
     }
     
     @Override
@@ -98,4 +102,23 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
 			}
 		});
 	}
+    @Override
+    public void GetCoursInfo()
+    {
+    CoursInfoAction coursInfoAction = new CoursInfoAction();
+    dispatcher.execute(coursInfoAction, new AsyncCallback<CoursInfoResult>() {
+    	@Override
+    	public void onSuccess(CoursInfoResult result) {
+    		Logger logger = Logger.getLogger("Log variable");
+    		logger.log(java.util.logging.Level.SEVERE, "Cours type ");
+    		getView().CreateCoursItems(result);
+    	}
+    
+    	@Override
+    	public void onFailure(Throwable caught) {
+    		Logger logger = java.util.logging.Logger.getLogger("Error Log variable");
+    		logger.log(java.util.logging.Level.SEVERE, "Cours choisi probleme");
+    	}
+    });
+             }
 }

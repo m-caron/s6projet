@@ -8,8 +8,17 @@
 	    <g:MenuBar ui:field="menuBar" animationEnabled="true" autoOpen="true">
 	    	<g:MenuItem text="Accueil" ui:field="btnHome" />
 		    <g:MenuItem text="Cheminement" ui:field="btnProfile">
-			    <g:MenuBar vertical="true" ui:field="SessionMenu">
-			    </g:MenuBar>
+			    <g:MenuBar vertical="true" ui:field="SessionMenu"></g:MenuBar>
+
+<!-- 			    <g:VerticalPanel> -->
+			        <g:Label ui:field="CoursCode"> </g:Label>
+				    <g:Label ui:field="CoursName" tag="label"></g:Label>
+				    <g:Label ui:field="CoursTutor" tag="label"></g:Label>
+				    <g:Label ui:field="CoursDescription" tag="label"></g:Label>
+				    <g:Label ui:field="CoursQuality" tag="label"></g:Label>  
+<!-- 			    </g:VerticalPanel> -->
+			    
+
 		    </g:MenuItem>
 		    <g:MenuItem text="Qualité" ui:field="btnAccount">
 			    <g:MenuBar vertical="true" ui:field="QualityMenu">
